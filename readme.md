@@ -10,23 +10,26 @@
 
 LibreTV 是一个轻量级、免费的在线视频搜索与观看平台，提供来自多个视频源的内容搜索与播放服务。无需注册，即开即用，支持多种设备访问。项目结合了前端技术和后端代理功能，可部署在支持服务端功能的各类网站托管服务上。
 
-本项目基于 [bestK/tv](https://github.com/bestK/tv) 进行重构与增强。
+**本项目基于 [LibreSpark/LibreTV](https://github.com/LibreSpark/LibreTV) 进行部分改动和增强。**
+
+相比原项目，本项目包含但不限于以下改动：
+
+- 默认启用豆瓣热门推荐
+- 增强黄色内容过滤功能
+- 支持检查数据源可用性
+- 支持导入导出配置文件
+- ...
 
 <details>
   <summary>点击查看项目截图</summary>
   <img src="https://github.com/user-attachments/assets/df485345-e83b-4564-adf7-0680be92d3c7" alt="项目截图" style="max-width:600px">
 </details>
 
-## 🥇 感谢赞助
-
-- **[YXVM](https://yxvm.com)**  
-- **[VTEXS](https://vtexs.com)**
-
 ## 🚀 快速部署
 
 选择以下任一平台，点击一键部署按钮，即可快速创建自己的 LibreTV 实例：
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FLibreSpark%2FLibreTV) [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/LibreSpark/LibreTV)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FWLongSAMA%2FLibreTV) [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/WLongSAMA/LibreTV)
 
 ## 📋 详细部署指南
 
@@ -149,23 +152,6 @@ LibreTV 支持标准的苹果 CMS V10 API 格式。添加自定义 API 时需遵
 - Cloudflare/Vercel/Netlify Serverless Functions
 - 服务端 HLS 代理和处理技术
 - localStorage 本地存储
-
-## 🔄 更新日志
-
-<details>
-  <summary>点击查看更新日志</summary>
-
-- **1.1.2** (2025-04-22): 新增豆瓣热门内容显示，设置中可开关
-- **1.1.1** (2025-04-19): 
-  - 修复 docker 部署时无法搜索的问题
-  - 修复播放页面进度保存与恢复的兼容性问题  
-- **1.1.0** (2025-04-17): 添加服务端代理功能，支持 HLS 流处理和解析，支持环境变量设置访问密码
-- **1.0.3** (2025-04-13): 性能优化、UI优化、更新设置功能
-- **1.0.2** (2025-04-08): 分离播放页面，优化视频源 API 兼容性
-- **1.0.1** (2025-04-07): 添加广告过滤功能，优化播放器性能
-- **1.0.0** (2025-04-06): 初始版本发布
-
-</details>
 
 ## ⚠️ 免责声明
 
