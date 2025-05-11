@@ -1,4 +1,4 @@
-# LibreTV - 免费在线视频搜索与观看平台
+# LibreTVX - 免费在线视频搜索与观看平台
 
 <div align="center">
   <img src="https://tv.4dog.win/images/tv.png" alt="LibreTVX Logo" width="120">
@@ -24,7 +24,7 @@ LibreTVX 是一个轻量级、免费的在线视频搜索与观看平台，提�
 
 <details>
   <summary>点击查看项目截图</summary>
-  <img src="https://github.com/user-attachments/assets/df485345-e83b-4564-adf7-0680be92d3c7" alt="项目截图" style="max-width:600px">
+  <img src="https://github.com/user-attachments/assets/20376eaa-2afe-481e-b12c-e75581c09803" alt="项目截图" style="max-width:600px">
 </details>
 
 ## 🚀 快速部署
