@@ -574,6 +574,7 @@ async function search() {
     
     if (!query) {
         showToast('请输入搜索内容', 'info');
+        resetToHome();
         return;
     }
     

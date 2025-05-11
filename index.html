@@ -35,31 +35,32 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="page-bg text-white">
-    <!-- 将历史记录按钮移到左上角，并缩小尺寸 -->
-    <div class="fixed top-4 left-4 z-10">
-        <button onclick="toggleHistory(event)" class="bg-[#222] hover:bg-[#333] border border-[#333] hover:border-white rounded-lg px-3 py-1.5 transition-colors" aria-label="观看历史">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-        </button>
+    <div id="topToolbar">
+        <!-- 将历史记录按钮移到右上角，并缩小尺寸 -->
+        <div class="fixed top-4 right-16 z-10">
+            <button onclick="toggleHistory(event)" class="hover:bg-[#333] rounded-lg px-3 py-1.5 transition-colors" aria-label="观看历史">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- 设置按钮保留在右上角，并缩小尺寸 -->
+        <div class="fixed top-4 right-4 z-10">
+            <button onclick="toggleSettings(event)" class="hover:bg-[#333] rounded-lg px-3 py-1.5 transition-colors" aria-label="打开设置">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+            </button>
+        </div>
     </div>
 
-    <!-- 设置按钮保留在右上角，并缩小尺寸 -->
-    <div class="fixed top-4 right-4 z-10">
-        <button onclick="toggleSettings(event)" class="bg-[#222] hover:bg-[#333] border border-[#333] hover:border-white rounded-lg px-3 py-1.5 transition-colors" aria-label="打开设置">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-            </svg>
-        </button>
-    </div>
-    
-    <!-- 历史记录面板 - 标题居中 -->
-    <div id="historyPanel" class="history-panel fixed left-0 top-0 h-full bg-[#111] border-r border-[#333] p-6 z-40 transform -translate-x-full transition-transform duration-300" aria-label="观看历史" aria-hidden="true">
+    <!-- 历史记录面板 -->
+    <div id="historyPanel" class="history-panel fixed right-0 top-0 h-full w-80 bg-[#111] border-l border-[#333] p-6 z-40 overflow-y-auto" aria-label="观看历史" aria-hidden="true">
         <div class="flex justify-between items-center mb-6">
+            <h3 class="text-xl font-bold gradient-text">观看历史</h3>
             <button onclick="toggleHistory()" class="text-gray-400 hover:text-white" aria-label="关闭历史">&times;</button>
-            <h3 class="text-xl font-bold gradient-text mx-auto">观看历史</h3>
-            <div class="w-4"></div> <!-- 添加一个占位元素以确保标题居中 -->
         </div>
         <div id="historyList" class="pb-4">
             <!-- 历史记录将在这里动态显示 -->
@@ -198,7 +199,7 @@
         <div class="flex-1 flex flex-col">
             <!-- 网站标志和口号 -->
             <header class="text-center mb-2">
-                <div class="flex justify-center items-center mb-4">
+                <div class="flex justify-center items-center mt-8 mb-4">
                     <a href="#" onclick="resetToHome(); return false;" class="flex items-center">
                         <svg class="w-10 h-10 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
@@ -211,25 +212,23 @@
 
             <div id="searchArea" class="flex-1 flex flex-col items-center justify-center">
                 <div class="w-full max-w-2xl">
-                    <div class="flex items-stretch mb-3 h-14 shadow-lg rounded-lg overflow-hidden">
-                        <!-- 首页按钮 -->
-                        <button onclick="resetToHome()" 
-                                class="w-20 sm:w-24 flex items-center justify-center bg-white text-black font-medium hover:bg-gray-200 transition-colors" 
-                                aria-label="返回首页" title="返回首页">
-                            首页
-                        </button>
+                    <div class="flex items-stretch mb-3 h-14 shadow-lg rounded-lg border border-[#333] overflow-hidden">
                         <!-- 搜索输入 -->
                         <input type="text" 
                                id="searchInput" 
-                               class="flex-1 bg-[#111] border-y border-[#333] text-white px-6 py-0 focus:outline-none transition-colors" 
-                               placeholder="搜索你喜欢的视频..." 
+                               class="flex-1 bg-[#222] text-white px-6 py-0 focus:outline-none transition-colors" 
+                               placeholder="搜索电影、电视剧、综艺、动漫" 
                                autocomplete="off"
                                aria-label="视频搜索框">
                         <!-- 搜索按钮 -->
                         <button onclick="search()" 
-                                class="w-20 sm:w-24 flex items-center justify-center bg-white text-black font-medium hover:bg-gray-200 transition-colors" 
+                                class="w-20 sm:w-24 flex items-center justify-center text-white font-medium transition-colors bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600" 
                                 aria-label="搜索按钮">
-                            搜索
+                                <svg class="h-6 w-6 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path fill-rule="evenodd" d="M5.5 11.145c0-2.93 2.07-5.454 4.945-6.026 2.874-.572 5.753.966 6.875 3.674 1.122 2.708.175 5.831-2.262 7.46-2.437 1.628-5.685 1.31-7.758-.763-1.152-1.152-1.8-2.714-1.8-4.345"/>
+                                    <path d="M15.989 15.49L19.5 19"/>
+                                </svg>
+                            <scan>搜索</scan>
                         </button>
                     </div>
                     
@@ -460,6 +459,45 @@
                 });
             }
         });
+    </script>
+
+    // 监听滚动条，当页面滚动超过 150px 隐藏顶部按钮
+    <script>
+        let hasExceeded = false;
+        let hasWithin = false;
+
+        function checkScroll() {
+            const toolbar = document.getElementById('topToolbar');
+            const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+            if (scrollY > 150) {
+                if (!hasExceeded) {
+                toolbar.style.display = 'none';
+                hasExceeded = true;
+                hasWithin = false; // 重置 150px 内的状态
+                }
+            } else {
+                if (!hasWithin) {
+                toolbar.style.display = '';
+                hasWithin = true;
+                hasExceeded = false; // 重置超过 150px 的状态
+                }
+            }
+        }
+
+        // 添加节流优化（每100ms检查一次）
+        function throttle(func, limit) {
+        let inThrottle;
+        return function() {
+            if (!inThrottle) {
+                func();
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+                }
+            };
+        }
+
+        window.addEventListener('scroll', throttle(checkScroll, 100));
     </script>
 </body>
 </html>
