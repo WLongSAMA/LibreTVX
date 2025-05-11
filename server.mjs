@@ -3,6 +3,7 @@ import express from 'express';
 import axios from 'axios';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
+import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -10,32 +11,56 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = 8080;
 
+const password = process.env.PASSWORD || '';
+
 // 启用 CORS
 app.use(cors());
 
-// 静态文件路径
-app.use(express.static('./'));
-
-/*
-app.get('/', async (req, res) => {
+app.get(['/', '/index.html', '/player.html'], async (req, res) => {
   try {
-    const content = await fs.readFile(path.join(__dirname, 'index.html'), 'utf8');
+    let content;
+    switch (req.path) {
+      case '/':
+      case '/index.html':
+        content = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
+        break;
+      case '/player.html':
+        content = fs.readFileSync(path.join(__dirname, 'player.html'), 'utf8');
+        break;
+    }
+    if (password !== '') {
+      const sha256 = await sha256Hash(password);
+      content = content.replace('{{PASSWORD}}', sha256);
+    }
     res.send(content)
   } catch (error) {
     console.error(error)
-    res.status(500).send('读取 index.html 失败')
+    res.status(500).send('读取静态页面失败')
   }
 })
-*/
 
 app.get('/proxy/:encodedUrl', async (req, res) => {
   try {
     // 获取 URL 编码的参数
     const encodedUrl = req.params.encodedUrl;
-    
+
     // 对 URL 进行解码
     const targetUrl = decodeURIComponent(encodedUrl);
-    
+
+    // 安全验证：检查是否为合法 URL
+    const isValidUrl = (urlString) => {
+      try {
+        const parsed = new URL(urlString);
+        const allowedProtocols = ['http:', 'https:'];
+        const blockedHostnames = ['localhost', '127.0.0.1'];
+
+        return allowedProtocols.includes(parsed.protocol) &&
+          !blockedHostnames.includes(parsed.hostname);
+      } catch {
+        return false;
+      }
+    };
+
     // 安全验证
     if (!isValidUrl(targetUrl)) {
       return res.status(400).send('Invalid URL');
@@ -66,21 +91,22 @@ app.get('/proxy/:encodedUrl', async (req, res) => {
   }
 });
 
-// 安全验证：检查是否为合法 URL
-const isValidUrl = (urlString) => {
-  try {
-    const parsed = new URL(urlString);
-    const allowedProtocols = ['http:', 'https:'];
-    const blockedHostnames = ['localhost', '127.0.0.1'];
-    
-    return allowedProtocols.includes(parsed.protocol) &&
-           !blockedHostnames.includes(parsed.hostname);
-  } catch {
-    return false;
-  }
-};
+// 静态文件路径
+app.use(express.static('./'));
+
+// 计算 SHA-256 哈希值
+export async function sha256Hash(input) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(input);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
 app.listen(port, () => {
-  console.log(`服务器运行在 http://localhost:${port}`)
+  console.log(`服务器运行在 http://localhost:${port}`);
+  if (password !== '') {
+    console.log('登录密码为：', password);
+  }
 });
 

@@ -84,8 +84,6 @@
         .episode-grid {
             max-height: 30vh;
             overflow-y: auto;
-            padding-bottom: 1rem;
-            margin-top: 1rem;
         }
         .switch {
             position: relative;
@@ -255,7 +253,7 @@
         </div>
 
         <!-- 添加自动播放开关和排序按钮 -->
-        <div class="player-container">
+        <div class="player-container mb-2">
             <div class="flex flex-wrap justify-end items-center gap-2">
                 <!-- 自动连播开关 - 分组到左边 -->
                 <div class="flex items-center gap-1 flex-shrink-0 mr-auto">
@@ -286,7 +284,7 @@
                     <!-- 锁定控制按钮 - 始终显示在最右侧 -->
                     <button id="lockToggle" onclick="toggleControlsLock()" title="锁定控制" 
                             class="px-2 py-1 bg-[#222] hover:bg-[#333] border border-[#333] text-white rounded-lg transition flex-shrink-0">
-                        <svg id="lockIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg id="lockIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <!-- 默认状态：未锁图标 -->
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M15 11V7a3 3 0 00-6 0v4m-3 4h12v6H6v-6z" />
@@ -314,6 +312,34 @@
         </svg>
         <span id="shortcutText"></span>
     </div>
+
+    <!-- 页脚区域 -->
+    <footer class="footer mt-2 py-6 border-t border-[#333] bg-[#0a0a0a]">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center justify-center md:justify-start">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                        <span class="gradient-text font-bold">LibreTV</span>
+                    </div>
+                    <p class="text-gray-500 text-sm mt-2 text-center md:text-left">© 2025 LibreTV - 自由观影，畅享精彩</p>
+                </div>
+                
+                <div class="text-center md:text-right">
+                    <p class="text-gray-500 text-sm max-w-md">
+                        免责声明：本站仅为视频搜索工具，不存储、上传或分发任何视频内容。
+                        所有视频均来自第三方API接口。如有侵权，请联系相关内容提供方。
+                    </p>
+                    <div class="mt-2 flex justify-center md:justify-end space-x-4">
+                        <a href="about.html" class="text-gray-400 hover:text-white text-sm transition-colors">关于我们</a>
+                        <a href="privacy.html" class="text-gray-400 hover:text-white text-sm transition-colors">隐私政策</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- 引入纯 JS sha256（HTTP 下依然可用） -->
     <script src="libs/sha256.min.js"></script>
@@ -1136,11 +1162,13 @@
             // 尝试从URL中获取参数
             const urlParams = new URLSearchParams(window.location.search);
             const linkUrl = urlParams.get('url') || '';
-            navigator.clipboard.writeText(linkUrl).then(() => {
-                showToast('播放链接已复制', 'success');
-            }).catch(err => {
-                showToast('复制失败，请检查浏览器权限', 'error');
-            });
+            if (linkUrl !== '') {
+                navigator.clipboard.writeText(linkUrl).then(() => {
+                    showToast('播放链接已复制', 'success');
+                }).catch(err => {
+                    showToast('复制失败，请检查浏览器权限', 'error');
+                });
+            }
         }
 
         // 切换集数排序
