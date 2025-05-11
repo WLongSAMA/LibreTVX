@@ -91,8 +91,39 @@ app.get('/proxy/:encodedUrl', async (req, res) => {
   }
 });
 
+app.get('/about.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'about.html'));
+});
+
+app.get('/manifest.json', (req, res) => {
+  res.sendFile(path.join(__dirname, 'manifest.json'));
+});
+
+app.get('/privacy.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'privacy.html'));
+});
+
+app.get('/robots.txt', (req, res) => {
+  res.sendFile(path.join(__dirname, 'robots.txt'));
+});
+
+app.get('/service-worker.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'service-worker.js'));
+});
+
+app.get('/sitemap.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'sitemap.html'));
+});
+
+app.get('/watch.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'watch.html'));
+});
+
 // 静态文件路径
-app.use(express.static('./'));
+app.use('/css', express.static('./css'));
+app.use('/images', express.static('./images'));
+app.use('/js', express.static('./js'));
+app.use('/libs', express.static('./libs'));
 
 // 计算 SHA-256 哈希值
 export async function sha256Hash(input) {
