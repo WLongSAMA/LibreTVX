@@ -33,6 +33,8 @@ LibreTVX 是一个轻量级、免费的在线视频搜索与观看平台，提�
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FWLongSAMA%2FLibreTVX) [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/WLongSAMA/LibreTVX)
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/WLongSAMA/LibreTVX)
+
 ## 📋 详细部署指南
 
 ### Cloudflare Pages
@@ -114,7 +116,7 @@ npm run dev
 
 要为您的 LibreTVX 实例添加密码保护，可以在部署平台上设置环境变量：
 
-**环境变量名**: `PASSWORD` 
+**环境变量名**: `PASSWORD`
 **值**: 您想设置的密码
 
 各平台设置方法：
