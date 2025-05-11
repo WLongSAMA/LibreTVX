@@ -11,7 +11,7 @@ const urlsToCache = [
   '/libs/DPlayer.min.js',
   '/libs/hls.min.js',
   '/libs/sha256.min.js',
-  '/https://images.icon-icons.com/38/PNG/512/retrotv_5520.png',
+  '/https://tv.4dog.win/images/tv.png',
   '/manifest.json'
 ];
 

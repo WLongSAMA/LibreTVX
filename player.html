@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LibreTV 播放器</title>
+    <title>LibreTVX 播放器</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="https://tv.4dog.win/images/retrotv_5520.png">
-    <link rel="apple-touch-icon" href="https://tv.4dog.win/images/retrotv_5520.png">
+    <link rel="icon" href="https://tv.4dog.win/images/tv.png">
+    <link rel="apple-touch-icon" href="https://tv.4dog.win/images/tv.png">
     <link rel="manifest" href="manifest.json">
 
     <script src="libs/tailwindcss.min.js"></script>
@@ -187,7 +187,7 @@
                 <svg class="w-8 h-8 mr-2 text-[#00ccff] logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                 </svg>
-                <h1 class="text-xl font-bold gradient-text logo-text">LibreTV</h1>
+                <h1 class="text-xl font-bold"><scan class="gradient-text">LibreTV</scan><scan class="text-white" style="text-shadow: 0 0 10px yellow;">X</scan></h1>
             </a>
         </div>
         <h2 id="videoTitle" class="text-xl font-semibold flex-1 text-center overflow-x-auto whitespace-nowrap truncate custom-title-scroll"></h2>
@@ -442,7 +442,7 @@
             }
 
             // 设置页面标题
-            document.title = currentVideoTitle + ' - LibreTV播放器';
+            document.title = currentVideoTitle + ' - LibreTVX播放器';
             document.getElementById('videoTitle').textContent = currentVideoTitle;
 
             // 初始化播放器
@@ -620,13 +620,13 @@
                 chromecast: true,                // 启用Chromecast投屏功能
                 contextmenu: [                   // 自定义右键菜单
                     {
-                        text: '关于 LibreTV',
-                        link: 'https://github.com/WLongSAMA/LibreTV'
+                        text: '关于 LibreTVX',
+                        link: 'https://github.com/WLongSAMA/LibreTVX'
                     },
                     {
                         text: '问题反馈',
                         click: (player) => {
-                            window.open('https://github.com/WLongSAMA/LibreTV/issues', '_blank');
+                            window.open('https://github.com/WLongSAMA/LibreTVX/issues', '_blank');
                         }
                     }
                 ],

@@ -1,4 +1,4 @@
-name: 'Build LibreTV image'
+name: 'Build LibreTVX image'
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: 'Build LibreTV image'
+    name: 'Build LibreTVX image'
     runs-on: ubuntu-latest
     # Modified to run on both repositories
     if: github.repository == 'LibreSpark/LibreTV' || github.repository == 'bestZwei/libretv'

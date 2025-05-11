@@ -13,10 +13,10 @@ const PASSWORD_CONFIG = {
 
 // 网站信息配置
 const SITE_CONFIG = {
-    name: 'LibreTV',
+    name: 'LibreTVX',
     url: WEBSITE_URL,
     description: '免费在线视频搜索与观看平台',
-    logo: WEBSITE_URL + '/images/retrotv_5520.png',
+    logo: WEBSITE_URL + '/images/tv.png',
     version: '2.1.3'
 };
 
