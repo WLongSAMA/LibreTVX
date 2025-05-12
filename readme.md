@@ -1,7 +1,7 @@
 # LibreTVX - 免费在线视频搜索与观看平台
 
 <div align="center">
-  <img src="https://tv.4dog.win/images/tv.png" alt="LibreTVX Logo" width="120">
+  <img src="./images/tv.png" alt="LibreTVX Logo" width="120">
   <br>
   <p><strong>视界无界，心随影动</strong></p>
 </div>

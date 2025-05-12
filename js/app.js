@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 设置默认API选择（如果是第一次加载）
     if (!localStorage.getItem('hasInitializedDefaults')) {
         // 仅选择天涯资源、暴风资源和如意资源
-        selectedAPIs = ["tyyszy", "bfzy","dyttzy", "ruyi"];
+        selectedAPIs = ["tyyszy","xiaomaomi","xiaomaomi", "bfzy","dyttzy", "ruyi"];
         localStorage.setItem('selectedAPIs', JSON.stringify(selectedAPIs));
         
         // 默认选中过滤开关
