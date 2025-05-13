@@ -1156,12 +1156,34 @@ async function importConfig() {
 async function exportConfig() {
     // 存储配置数据
     const config = {};
-
-    // 读取全部 localStorage 项
     const items = {};
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        items[key] = localStorage.getItem(key);
+
+    const settingsToExport = [
+        'selectedAPIs',
+        'customAPIs',
+        'yellowFilterEnabled',
+        'adFilteringEnabled',
+        'doubanEnabled',
+        'hasInitializedDefaults'
+    ];
+
+    // 导出设置项
+    settingsToExport.forEach(key => {
+        const value = localStorage.getItem(key);
+        if (value !== null) {
+            items[key] = value;
+        }
+    });
+
+    // 导出历史记录
+    const viewingHistory = localStorage.getItem('viewingHistory');
+    if (viewingHistory) {
+        items['viewingHistory'] = viewingHistory;
+    }
+
+    const searchHistory = localStorage.getItem(SEARCH_HISTORY_KEY);
+    if (searchHistory) {
+        items[SEARCH_HISTORY_KEY] = searchHistory;
     }
 
     const times = Date.now().toString();
