@@ -59,8 +59,12 @@
     <!-- 历史记录面板 -->
     <div id="historyPanel" class="history-panel fixed right-0 top-0 h-full w-80 bg-[#111] border-l border-[#333] p-6 z-40 overflow-y-auto" aria-label="观看历史" aria-hidden="true">
         <div class="flex justify-between items-center mb-6">
+            <button onclick="toggleHistory()" class="close-btn">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
             <h3 class="text-xl font-bold gradient-text">观看历史</h3>
-            <button onclick="toggleHistory()" class="text-gray-400 hover:text-white" aria-label="关闭历史">&times;</button>
         </div>
         <div id="historyList" class="pb-4">
             <!-- 历史记录将在这里动态显示 -->
@@ -77,7 +81,11 @@
     <div id="settingsPanel" class="settings-panel fixed right-0 top-0 h-full w-80 bg-[#111] border-l border-[#333] p-6 z-40 overflow-y-auto" aria-label="设置面板" aria-hidden="true">
         <div class="flex justify-between items-center mb-6">
             <h3 class="text-xl font-bold gradient-text">设置</h3>
-            <button onclick="toggleSettings()" class="text-gray-400 hover:text-white" aria-label="关闭设置">&times;</button>
+            <button onclick="toggleSettings()" class="close-btn">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
         </div>
         <div class="space-y-5">
             <!-- 数据源设置区域 -->
