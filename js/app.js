@@ -1005,7 +1005,25 @@ function playVideo(url, vod_name, sourceCode, episodeIndex = 0) {
     const playerUrl = `player.html?url=${encodeURIComponent(url)}&title=${encodeURIComponent(videoTitle)}&index=${episodeIndex}&source=${encodeURIComponent(sourceName)}&source_code=${encodeURIComponent(sourceCode)}`;
     
     // 在当前标签页中打开播放页面
-    window.location.href = playerUrl;
+    //window.location.href = playerUrl;
+
+    // 临时隐藏搜索结果，防止高度超出播放器而出现滚动条
+    document.getElementById('resultsArea').classList.add('hidden');
+    // 在框架中打开播放页面
+    videoPlayerFrame = document.createElement('iframe');
+    videoPlayerFrame.id = 'VideoPlayerFrame';
+    videoPlayerFrame.className = 'fixed w-full h-screen z-40';
+    videoPlayerFrame.src = playerUrl;
+    document.body.appendChild(videoPlayerFrame);
+}
+
+// 关闭播放器页面
+function closeVideoPlayer() {
+    videoPlayerFrame = document.getElementById('VideoPlayerFrame');
+    if (videoPlayerFrame) {
+        videoPlayerFrame.remove();
+        document.getElementById('resultsArea').classList.remove('hidden');
+    }
 }
 
 // 播放上一集
