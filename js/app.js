@@ -493,7 +493,7 @@ function setupEventListeners() {
     document.addEventListener('click', function(e) {
         // 关闭设置面板
         const settingsPanel = document.querySelector('#settingsPanel.show');
-        const settingsButton = document.querySelector('#settingsPanel .close-btn');
+        const settingsButton = document.querySelector('#settingsButton, button[onclick*="toggleSettings"]');
         
         if (settingsPanel && settingsButton && 
             !settingsPanel.contains(e.target) && 
@@ -503,7 +503,7 @@ function setupEventListeners() {
 
         // 关闭历史记录面板
         const historyPanel = document.querySelector('#historyPanel.show');
-        const historyButton = document.querySelector('#historyPanel .close-btn');
+        const historyButton = document.querySelector('#historyButton, button[onclick*="toggleHistory"]');
         
         if (historyPanel && historyButton && 
             !historyPanel.contains(e.target) && 
