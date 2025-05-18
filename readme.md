@@ -151,7 +151,7 @@ LibreTVX 支持标准的苹果 CMS V10 API 格式。添加自定义 API 时需�
 
 **添加 CMS 源**:
 1. 在设置面板中选择"自定义接口"
-2. 接口地址只需填写到域名部分: `https://example.com`（不要包含`/api.php/provide/vod`部分）
+2. 接口地址: `https://example.com/api.php/provide/vod`
 
 ## ⌨️ 键盘快捷键
 
