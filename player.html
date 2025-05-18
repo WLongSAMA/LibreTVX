@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="css/player.css">
 </head>
 <body>
-    <header class="bg-[#111] p-4 flex items-center border-b border-[#333] gap-2 player-header">
+    <header class="bg-[#111] p-4 flex items-center border-b border-[#333] gap-2">
         <div class="flex items-center min-w-0">
             <a href="/" class="flex items-center min-w-0">
                 <svg class="w-8 h-8 mr-2 text-[#00ccff] logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -230,17 +230,6 @@
                 // 如果是从搜索页面来的，返回到搜索页面
                 window.location.href = referrer;
                 return;
-            }
-            
-            // 4. 如果是在iframe中打开的，尝试关闭iframe
-            if (window.self !== window.top) {
-                try {
-                    // 尝试调用父窗口的关闭播放器函数
-                    window.parent.closeVideoPlayer && window.parent.closeVideoPlayer();
-                    return;
-                } catch (e) {
-                    console.error('调用父窗口closeVideoPlayer失败:', e);
-                }
             }
             
             // 5. 无法确定上一页，则返回首页

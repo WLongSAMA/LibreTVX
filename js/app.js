@@ -1027,45 +1027,7 @@ function playVideo(url, vod_name, sourceCode, episodeIndex = 0) {
         console.error('保存播放状态失败:', e);
     }
     
-    // 在新窗口/标签页中打开播放页面
-    window.open(watchUrl);
-}
-
-// 弹出播放器页面
-function showVideoPlayer(url) {
-    // 在打开播放器前，隐藏详情弹窗
-    const detailModal = document.getElementById('modal');
-    if (detailModal) {
-        detailModal.classList.add('hidden');
-    }
-    // 临时隐藏搜索结果和豆瓣区域，防止高度超出播放器而出现滚动条
-    document.getElementById('resultsArea').classList.add('hidden');
-    document.getElementById('doubanArea').classList.add('hidden');
-    // 在框架中打开播放页面
-    videoPlayerFrame = document.createElement('iframe');
-    videoPlayerFrame.id = 'VideoPlayerFrame';
-    videoPlayerFrame.className = 'fixed w-full h-screen z-40';
-    videoPlayerFrame.src = url;
-    document.body.appendChild(videoPlayerFrame);
-}
-
-// 关闭播放器页面
-function closeVideoPlayer() {
-    videoPlayerFrame = document.getElementById('VideoPlayerFrame');
-    if (videoPlayerFrame) {
-        videoPlayerFrame.remove();
-        // 恢复搜索结果显示
-        document.getElementById('resultsArea').classList.remove('hidden');
-        // 关闭播放器时也隐藏详情弹窗
-        const detailModal = document.getElementById('modal');
-        if (detailModal) {
-            detailModal.classList.add('hidden');
-        }
-        // 如果启用豆瓣区域则显示豆瓣区域
-        if (localStorage.getItem('doubanEnabled') === 'true') {
-            document.getElementById('doubanArea').classList.remove('hidden');
-        }
-    }
+    location.assign(watchUrl);
 }
 
 // 播放上一集

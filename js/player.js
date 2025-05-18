@@ -1406,19 +1406,3 @@ function toggleControlsLock() {
         ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d=\"M12 15v2m0-8V7a4 4 0 00-8 0v2m8 0H4v8h16v-8H6v-6z\"/>'
         : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d=\"M15 11V7a3 3 0 00-6 0v4m-3 4h12v6H6v-6z\"/>';
 }
-
-// 支持在iframe中关闭播放器
-function closeEmbeddedPlayer() {
-    try {
-        if (window.self !== window.top) {
-            // 如果在iframe中，尝试调用父窗口的关闭方法
-            if (window.parent && typeof window.parent.closeVideoPlayer === 'function') {
-                window.parent.closeVideoPlayer();
-                return true;
-            }
-        }
-    } catch (e) {
-        console.error('尝试关闭嵌入式播放器失败:', e);
-    }
-    return false;
-}
