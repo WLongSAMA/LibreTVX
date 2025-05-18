@@ -228,7 +228,18 @@
                                class="flex-1 bg-[#222] text-white px-6 py-0 focus:outline-none transition-colors" 
                                placeholder="搜索电影、电视剧、综艺、动漫" 
                                autocomplete="off"
-                               aria-label="视频搜索框">
+                               aria-label="视频搜索框"
+                               oninput="toggleClearButton()">
+                        <!-- 清空按钮 -->
+                        <button id="clearSearchInput" 
+                                class="flex pr-2 bg-[#111] border-y border-[#333] items-center justify-center text-gray-400 hover:text-white hidden"
+                                onclick="clearSearchInput()"
+                                aria-label="清空搜索框"
+                                title="清空搜索框">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
                         <!-- 搜索按钮 -->
                         <button onclick="search()" 
                                 class="w-20 sm:w-24 flex items-center justify-center text-white font-medium transition-colors bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600" 

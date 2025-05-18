@@ -889,6 +889,25 @@ async function search() {
     }
 }
 
+// 切换清空按钮的显示状态
+function toggleClearButton() {
+    const searchInput = document.getElementById('searchInput');
+    const clearButton = document.getElementById('clearSearchInput');
+    if (searchInput.value.trim() !== '') {
+        clearButton.classList.remove('hidden');
+    } else {
+        clearButton.classList.add('hidden');
+    }
+}
+
+// 清空搜索框内容
+function clearSearchInput() {
+    const searchInput = document.getElementById('searchInput');
+    searchInput.value = '';
+    const clearButton = document.getElementById('clearSearchInput');
+    clearButton.classList.add('hidden');
+}
+
 // 显示详情 - 修改为支持自定义API
 async function showDetails(id, vod_name, sourceCode) {
     // 密码保护校验
