@@ -601,6 +601,12 @@ function initPlayer(videoUrl, sourceCode) {
     });
 
     dp.on('error', function() {
+        // 如果正在切换视频，忽略错误
+        if (window.isSwitchingVideo) {
+            console.log('正在切换视频，忽略错误');
+            return;
+        }
+        
         // 检查视频是否已经在播放
         if (dp.video && dp.video.currentTime > 1) {
             console.log('发生错误，但视频已在播放中，忽略');
@@ -887,51 +893,86 @@ function playEpisode(index) {
     currentEpisodeIndex = index;
     videoHasEnded = false; // 重置视频结束标志
     
-    // 获取当前URL参数，保留source参数
-    const urlParams = new URL(window.location.href);
-    const sourceName = urlParams.searchParams.get('source') || ''; // Use searchParams
-    const sourceCode = urlParams.searchParams.get('source_code') || ''; // Use searchParams
+    // 新增：清除之前的播放位置记录，确保切换选集后从头开始播放
+    clearVideoProgress();
     
-    // 更新URL，不刷新页面，保留source参数
-    const newUrl = new URL(window.location.href);
+    // 获取当前URL的所有参数
+    const currentUrl = new URL(window.location.href);
+    const urlParams = currentUrl.searchParams;
+    const sourceName = urlParams.get('source') || ''; 
+    const sourceCode = urlParams.get('source_code') || '';
+    const videoId = urlParams.get('id') || '';
+    const returnUrl = urlParams.get('returnUrl') || '';
+    
+    // 构建新的URL，保持查询参数但更新index和url
+    const newUrl = new URL(window.location.origin + window.location.pathname);
+    // 保留所有原始参数
+    for(const [key, value] of urlParams.entries()) {
+        newUrl.searchParams.set(key, value);
+    }
+    // 更新需要变更的参数
     newUrl.searchParams.set('index', index);
     newUrl.searchParams.set('url', url);
-    if (sourceName) {
-        newUrl.searchParams.set('source', sourceName);
-    }
-    if (sourceCode) {
-        newUrl.searchParams.set('source_code', sourceCode);
-    }
+    // 移除position参数，确保不会从记录的位置开始播放
+    newUrl.searchParams.delete('position');
     
-    // 保留referrer参数，如果存在
-    const referrer = urlParams.searchParams.get('referrer'); // Use searchParams
-    if (referrer) {
-        newUrl.searchParams.set('referrer', referrer);
-    }
-    
+    // 使用replaceState更新URL，这样不会增加浏览历史记录
     window.history.replaceState({}, '', newUrl);
     
     // 更新播放器
     if (dp) {
         try {
-            if (dp.video) {
-                const sources = dp.video.querySelectorAll('source');
-                sources.forEach(source => source.src = url);
-            }
+            // 检测是否为Safari浏览器或iOS设备
+            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            
+            if (isSafari || isIOS) {
+                // Safari或iOS设备：完全重新初始化播放器
+                console.log('检测到Safari或iOS设备，重新初始化播放器');
 
-            dp.switchVideo({
-                url: url,
-                type: 'hls'
-            })
+                // 标记正在切换视频，避免错误处理
+                window.isSwitchingVideo = true;
+                
+                // 如果存在旧的播放器实例，先销毁它
+                if (dp && dp.destroy) {
+                    try {
+                        dp.destroy();
+                    } catch (e) {
+                        console.warn('销毁旧播放器实例出错:', e);
+                    }
+                }
+                
+                // 重新初始化播放器
+                initPlayer(url, sourceCode);
+
+                // 延迟重置标记
+                setTimeout(() => {
+                    window.isSwitchingVideo = false;
+                }, 1000);
+            } else {
+                // 其他浏览器使用正常的switchVideo方法
+                if (dp.video) {
+                    // 更新source元素
+                    const sources = dp.video.querySelectorAll('source');
+                    sources.forEach(source => source.src = url);
+                }
+                
+                dp.switchVideo({
+                    url: url,
+                    type: 'hls'
+                });
+            }
             
             // 确保播放开始
-            const playPromise = dp.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    console.warn('播放失败，尝试重新初始化:', error);
-                    // 如果切换视频失败，重新初始化播放器
-                    initPlayer(url, sourceCode);
-                });
+            if (dp) {
+                const playPromise = dp.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.warn('播放失败，尝试重新初始化:', error);
+                        // 如果切换视频失败，重新初始化播放器
+                        initPlayer(url, sourceCode);
+                    });
+                }
             }
         } catch (e) {
             console.error('切换视频出错，尝试重新初始化:', e);
