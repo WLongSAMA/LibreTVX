@@ -438,9 +438,9 @@
     <script src="js/config.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/api.js"></script>
-    <script src="js/douban.js"></script>
     <script src="js/password.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/douban.js"></script>
 
     <!-- PWA 注册 -->
     <script src="js/pwa-register.js"></script>
@@ -485,19 +485,7 @@
             }
         }
 
-        // 添加节流优化（每100ms检查一次）
-        function throttle(func, limit) {
-        let inThrottle;
-        return function() {
-            if (!inThrottle) {
-                func();
-                inThrottle = true;
-                setTimeout(() => inThrottle = false, limit);
-                }
-            };
-        }
-
-        window.addEventListener('scroll', throttle(checkScroll, 100));
+        window.addEventListener('scroll', checkScroll);
     </script>
 </body>
 </html>
