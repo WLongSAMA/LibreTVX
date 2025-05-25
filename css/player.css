@@ -171,12 +171,12 @@ input:checked + .slider:before {
     .episode-grid {
         max-height: 40vh; /* 移动端增加集数列表高度 */
     }
-    
+
     /* 改进移动端按钮显示 */
     button {
         white-space: nowrap;
     }
-    
+
     /* 控制栏在小屏幕上可能需要换行 */
     .player-container .flex-wrap {
         margin-bottom: 4px;

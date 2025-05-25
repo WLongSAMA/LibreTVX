@@ -20,7 +20,7 @@ replace_env_vars() {
 
   # Replace the password placeholder in all HTML files with the hashed password
   find /usr/share/nginx/html -type f -name "*.html" -exec sed -i "s/window.__ENV__.PASSWORD = \"{{PASSWORD}}\";/window.__ENV__.PASSWORD = \"${password_hash}\";/g" {} \;
-  
+
   echo "Environment variables have been injected into HTML files."
 }
 

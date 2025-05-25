@@ -3,12 +3,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // 弹窗显示脚本
     // 检查用户是否已经看过声明
     const hasSeenDisclaimer = localStorage.getItem('hasSeenDisclaimer');
-    
+
     if (!hasSeenDisclaimer) {
         // 显示弹窗
         const disclaimerModal = document.getElementById('disclaimerModal');
         disclaimerModal.style.display = 'flex';
-        
+
         // 添加接受按钮事件
         document.getElementById('acceptDisclaimerBtn').addEventListener('click', function() {
             // 保存用户已看过声明的状态
@@ -24,11 +24,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // 播放URL，不做额外处理，watch.html会处理重定向
         return;
     }
-    
+
     // 检查页面路径中的搜索参数 (格式: /s=keyword)
     const path = window.location.pathname;
     const searchPrefix = '/s=';
-    
+
     if (path.startsWith(searchPrefix)) {
         // 提取搜索关键词
         const keyword = decodeURIComponent(path.substring(searchPrefix.length));
@@ -44,8 +44,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 更新浏览器历史，不改变URL (保持搜索参数在地址栏)
                 try {
                     window.history.replaceState(
-                        { search: keyword }, 
-                        `搜索: ${keyword} - LibreTV`, 
+                        { search: keyword },
+                        `搜索: ${keyword} - LibreTV`,
                         window.location.href
                     );
                 } catch (e) {
@@ -54,11 +54,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 300);
         }
     }
-    
+
     // 也检查查询字符串中的搜索参数 (格式: ?s=keyword)
     const urlParams = new URLSearchParams(window.location.search);
     const searchQuery = urlParams.get('s');
-    
+
     if (searchQuery) {
         // 设置搜索框的值
         document.getElementById('searchInput').value = searchQuery;
@@ -68,8 +68,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // 更新URL为规范格式
             try {
                 window.history.replaceState(
-                    { search: searchQuery }, 
-                    `搜索: ${searchQuery} - LibreTV`, 
+                    { search: searchQuery },
+                    `搜索: ${searchQuery} - LibreTV`,
                     `/s=${encodeURIComponent(searchQuery)}`
                 );
             } catch (e) {

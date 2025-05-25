@@ -16,7 +16,7 @@
     <script src="js/version-check.js"></script>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/player.css">
-    
+
     <!-- Add optimized player loading styles -->
     <style>
       /* Critical header and navigation styles */
@@ -25,7 +25,7 @@
         z-index: 2147483647 !important;
         pointer-events: auto !important;
       }
-      
+
       /* Critical loading styles to prevent FOUC */
       .player-placeholder {
         width: 100% !important;
@@ -37,7 +37,7 @@
         border-radius: 8px !important;
         overflow: hidden !important;
       }
-      
+
       .player-loading-container {
         width: 100% !important;
         height: 0 !important;
@@ -48,7 +48,7 @@
         overflow: hidden !important;
         display: block !important;
       }
-      
+
       .player-loading-overlay {
         position: absolute !important;
         top: 0 !important;
@@ -61,7 +61,7 @@
         justify-content: center !important;
         background-color: rgba(17, 24, 39, 0.7) !important;
       }
-      
+
       .player-loading-spinner {
         width: 48px !important;
         height: 48px !important;
@@ -69,7 +69,7 @@
         position: relative !important;
         margin-bottom: 16px !important;
       }
-    
+
       /* Critical styles for loading text */
       .player-loading-text,
       .player-loading-overlay div:nth-child(2),
@@ -90,16 +90,16 @@
         background: transparent !important;
         max-width: 90% !important;
       }
-      
+
       @keyframes player-spinner-rotate {
         to { transform: rotate(360deg); }
       }
-      
+
       @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
-      
+
       /* ArtPlayer specific styles */
       .art-video-player, .art-video-player video {
         width: 100% !important;
@@ -111,14 +111,14 @@
         /* position: relative !important; */
         display: block !important;
       }
-    
+
       /* Fix for Chrome-specific issues */
       @media screen and (-webkit-min-device-pixel-ratio: 0) {
         .art-video-player video {
           transform: translateZ(0) !important;
           will-change: transform !important;
         }
-    
+
         /* Force visibility of video element */
         .art-video-player.art-playing video {
           visibility: visible !important;
@@ -138,7 +138,7 @@
       #homeButton { pointer-events: auto !important; }
       body { padding-top: 72px; }
     </style>
-    
+
     <!-- Loading indicator has been removed as requested -->
     <script>
       // Loading indicator initialization removed
@@ -238,7 +238,7 @@
                         <span class="slider"></span>
                     </label>
                 </div>
-                
+
                 <!-- 把各种功能按钮放在右侧 - 在小屏幕上各自占一行 -->
                 <div class="flex flex-wrap justify-end gap-2">
                     <!-- 倒序排列按钮 -->
@@ -248,16 +248,16 @@
                         </svg>
                         <span id="orderText">倒序排列</span>
                     </button>
-                    
+
                     <!-- 复制链接按钮 -->
                     <button title="复制播放链接" onclick="copyLinks()" class="px-2 py-1 bg-[#222] hover:bg-[#333] border border-[#333] text-white rounded-lg transition">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 012-2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
                         </svg>
                     </button>
-                    
+
                     <!-- 锁定控制按钮 - 始终显示在最右侧 -->
-                    <button id="lockToggle" onclick="toggleControlsLock()" title="锁定控制" 
+                    <button id="lockToggle" onclick="toggleControlsLock()" title="锁定控制"
                             class="px-2 py-1 bg-[#222] hover:bg-[#333] border border-[#333] text-white rounded-lg transition flex-shrink-0">
                         <svg id="lockIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <!-- 默认状态：未锁图标 -->
@@ -301,7 +301,7 @@
                     </div>
                     <p class="text-gray-500 text-sm mt-2 text-center md:text-left">© 2025 LibreTVX - 视界无界，心随影动</p>
                 </div>
-                
+
                 <div class="text-center md:text-right">
                     <p class="text-gray-500 text-sm max-w-md">
                         免责声明：本站仅为视频搜索工具，不存储、上传或分发任何视频内容。
@@ -322,7 +322,7 @@
         // 保存原始 js‑sha256 实现，避免被 password.js 覆盖
         window._jsSha256 = window.sha256;
     </script>
-    
+
     <script src="libs/hls.min.js" crossorigin="anonymous"></script>
     <script src="libs/artplayer.min.js" crossorigin="anonymous"></script>
 
@@ -334,7 +334,7 @@
     <script>
         // 创建全局环境变量对象
         window.__ENV__ = window.__ENV__ || {};
-        
+
         // 注入服务器端环境变量 (将由服务器端替换)
         // PASSWORD 变量将在这里被服务器端注入
         window.__ENV__.PASSWORD = "{{PASSWORD}}";

@@ -24,17 +24,17 @@ function isPasswordVerified() {
 
         const verificationData = JSON.parse(localStorage.getItem(PASSWORD_CONFIG.localStorageKey) || '{}');
         const { verified, timestamp, passwordHash } = verificationData;
-        
+
         // 获取当前环境中的密码哈希
         const currentHash = window.__ENV__ && window.__ENV__.PASSWORD;
-        
+
         // 验证是否已验证、未过期，且密码哈希未更改
         if (verified && timestamp && passwordHash === currentHash) {
             const now = Date.now();
             const expiry = timestamp + PASSWORD_CONFIG.verificationTTL;
             return now < expiry;
         }
-        
+
         return false;
     } catch (error) {
         console.error('验证密码状态时出错:', error);
@@ -89,7 +89,7 @@ function showPasswordModal() {
         document.getElementById('doubanArea').classList.add('hidden');
 
         passwordModal.style.display = 'flex';
-        
+
         // 确保输入框获取焦点
         setTimeout(() => {
             const passwordInput = document.getElementById('passwordInput');
@@ -164,17 +164,17 @@ function initPasswordProtection() {
     if (!isPasswordProtected()) {
         return; // 如果未设置密码保护，则不进行任何操作
     }
-    
+
     // 如果未验证密码，则显示密码验证弹窗
     if (!isPasswordVerified()) {
         showPasswordModal();
-        
+
         // 设置密码提交按钮事件监听
         const submitButton = document.getElementById('passwordSubmitBtn');
         if (submitButton) {
             submitButton.addEventListener('click', handlePasswordSubmit);
         }
-        
+
         // 设置密码输入框回车键监听
         const passwordInput = document.getElementById('passwordInput');
         if (passwordInput) {

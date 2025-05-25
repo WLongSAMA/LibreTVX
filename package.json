@@ -1,13 +1,10 @@
 {
   "name": "libretvx",
-  "version": "1.1.0",
-  "description": "免费在线视频搜索与观看平台",
-  "private": true,
   "type": "module",
   "version": "1.1.0",
   "private": true,
   "description": "免费在线视频搜索与观看平台",
-  "author": "bestZwei",
+  "author": "WLong",
   "license": "Apache-2.0",
   "scripts": {
     "dev": "nodemon server.mjs",
@@ -20,8 +17,6 @@
     "express": "^5.1.0",
     "node-fetch": "^3.3.2"
   },
-  "author": "WLong",
-  "license": "MIT",
   "devDependencies": {
     "nodemon": "^3.1.10"
   }
