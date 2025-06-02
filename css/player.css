@@ -66,7 +66,7 @@ body, html {
     border-color: #60a5fa !important;
 }
 .episode-grid {
-    max-height: 30vh;
+    max-height: 25vh;
     overflow-y: auto;
 }
 /* 恢复播放位置提示样式 */
