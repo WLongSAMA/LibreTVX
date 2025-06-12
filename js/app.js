@@ -12,7 +12,7 @@ let currentVideoTitle = '';
 let episodesReversed = false;
 
 // 页面初始化
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // 初始化API复选框
     initAPICheckboxes();
 
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 设置默认API选择（如果是第一次加载）
     if (!localStorage.getItem('hasInitializedDefaults')) {
         // 默认选中资源
-        selectedAPIs = ["tyyszy","bfzy","dyttzy", "ruyi"];
+        selectedAPIs = ["tyyszy", "bfzy", "dyttzy", "ruyi"];
         localStorage.setItem('selectedAPIs', JSON.stringify(selectedAPIs));
 
         // 默认选中过滤开关
@@ -94,7 +94,7 @@ function initAPICheckboxes() {
         normaldiv.appendChild(checkbox);
 
         // 添加事件监听器
-        checkbox.querySelector('input').addEventListener('change', function() {
+        checkbox.querySelector('input').addEventListener('change', function () {
             updateSelectedAPIs();
             checkAdultAPIsSelected();
         });
@@ -146,7 +146,7 @@ function addAdultAPI() {
             adultdiv.appendChild(checkbox);
 
             // 添加事件监听器
-            checkbox.querySelector('input').addEventListener('change', function() {
+            checkbox.querySelector('input').addEventListener('change', function () {
                 updateSelectedAPIs();
                 checkAdultAPIsSelected();
             });
@@ -244,7 +244,7 @@ function renderCustomAPIsList() {
             </div>
         `;
         container.appendChild(apiItem);
-        apiItem.querySelector('input').addEventListener('change', function() {
+        apiItem.querySelector('input').addEventListener('change', function () {
             updateSelectedAPIs();
             checkAdultAPIsSelected();
         });
@@ -480,17 +480,45 @@ function removeCustomApi(index) {
     showToast('已移除自定义API: ' + apiName, 'info');
 }
 
+function toggleSettings(e) {
+    const settingsPanel = document.getElementById('settingsPanel');
+    if (!settingsPanel) return;
+
+    // 检查是否有管理员密码
+    const hasAdminPassword = window.__ENV__?.ADMINPASSWORD && 
+                           window.__ENV__.ADMINPASSWORD.length === 64 && 
+                           !/^0+$/.test(window.__ENV__.ADMINPASSWORD);
+
+    if (settingsPanel.classList.contains('show')) {
+        settingsPanel.classList.remove('show');
+    } else {
+        // 只有设置了管理员密码且未验证时才拦截
+        if (hasAdminPassword && !isAdminVerified()) {
+            e.preventDefault();
+            e.stopPropagation();
+            showAdminPasswordModal();
+            return;
+        }
+        settingsPanel.classList.add('show');
+    }
+
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+}
+
 // 设置事件监听器
 function setupEventListeners() {
     // 回车搜索
-    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    document.getElementById('searchInput').addEventListener('keypress', function (e) {
         if (e.key === 'Enter') {
             search();
         }
     });
 
     // 点击外部关闭设置面板和历史记录面板
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         // 关闭设置面板
         const settingsPanel = document.querySelector('#settingsPanel.show');
         const settingsButton = document.querySelector('#settingsButton, button[onclick*="toggleSettings"]');
@@ -515,7 +543,7 @@ function setupEventListeners() {
     // 黄色内容过滤开关事件绑定
     const yellowFilterToggle = document.getElementById('yellowFilterToggle');
     if (yellowFilterToggle) {
-        yellowFilterToggle.addEventListener('change', function(e) {
+        yellowFilterToggle.addEventListener('change', function (e) {
             localStorage.setItem('yellowFilterEnabled', e.target.checked);
 
             // 控制黄色内容接口的显示状态
@@ -536,7 +564,7 @@ function setupEventListeners() {
     // 广告过滤开关事件绑定
     const adFilterToggle = document.getElementById('adFilterToggle');
     if (adFilterToggle) {
-        adFilterToggle.addEventListener('change', function(e) {
+        adFilterToggle.addEventListener('change', function (e) {
             localStorage.setItem(PLAYER_CONFIG.adFilteringStorage, e.target.checked);
         });
     }
@@ -617,123 +645,9 @@ async function search() {
 
         // 从所有选中的API源搜索
         let allResults = [];
-        const searchPromises = selectedAPIs.map(async (apiId) => {
-            try {
-                let apiUrl, apiName, apiBaseUrl;
-
-                // 处理自定义API
-                if (apiId.startsWith('custom_')) {
-                    const customIndex = apiId.replace('custom_', '');
-                    const customApi = getCustomApiInfo(customIndex);
-                    if (!customApi) return [];
-
-                    apiBaseUrl = customApi.url;
-                    apiUrl = apiBaseUrl + API_CONFIG.search.path + encodeURIComponent(query);
-                    apiName = customApi.name;
-                } else {
-                    // 内置API
-                    if (!API_SITES[apiId]) return [];
-                    apiBaseUrl = API_SITES[apiId].api;
-                    apiUrl = apiBaseUrl + API_CONFIG.search.path + encodeURIComponent(query);
-                    apiName = API_SITES[apiId].name;
-                }
-
-                // 添加超时处理
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 8000);
-
-                const response = await fetch(PROXY_URL + encodeURIComponent(apiUrl), {
-                    headers: API_CONFIG.search.headers,
-                    signal: controller.signal
-                });
-
-                clearTimeout(timeoutId);
-
-                if (!response.ok) {
-                    return [];
-                }
-
-                const data = await response.json();
-
-                if (!data || !data.list || !Array.isArray(data.list) || data.list.length === 0) {
-                    return [];
-                }
-
-                // 处理第一页结果
-                const results = data.list.map(item => ({
-                    ...item,
-                    source_name: apiName,
-                    source_code: apiId,
-                    api_url: apiId.startsWith('custom_') ? getCustomApiInfo(apiId.replace('custom_', ''))?.url : undefined
-                }));
-
-                // 获取总页数
-                const pageCount = data.pagecount || 1;
-                // 确定需要获取的额外页数 (最多获取maxPages页)
-                const pagesToFetch = Math.min(pageCount - 1, API_CONFIG.search.maxPages - 1);
-
-                // 如果有额外页数，获取更多页的结果
-                if (pagesToFetch > 0) {
-                    const additionalPagePromises = [];
-
-                    for (let page = 2; page <= pagesToFetch + 1; page++) {
-                        // 构建分页URL
-                        const pageUrl = apiBaseUrl + API_CONFIG.search.pagePath
-                            .replace('{query}', encodeURIComponent(query))
-                            .replace('{page}', page);
-
-                        // 创建获取额外页的Promise
-                        const pagePromise = (async () => {
-                            try {
-                                const pageController = new AbortController();
-                                const pageTimeoutId = setTimeout(() => pageController.abort(), 8000);
-
-                                const pageResponse = await fetch(PROXY_URL + encodeURIComponent(pageUrl), {
-                                    headers: API_CONFIG.search.headers,
-                                    signal: pageController.signal
-                                });
-
-                                clearTimeout(pageTimeoutId);
-
-                                if (!pageResponse.ok) return [];
-
-                                const pageData = await pageResponse.json();
-
-                                if (!pageData || !pageData.list || !Array.isArray(pageData.list)) return [];
-
-                                // 处理当前页结果
-                                return pageData.list.map(item => ({
-                                    ...item,
-                                    source_name: apiName,
-                                    source_code: apiId,
-                                    api_url: apiId.startsWith('custom_') ? getCustomApiInfo(apiId.replace('custom_', ''))?.url : undefined
-                                }));
-                            } catch (error) {
-                                console.warn(`API ${apiId} 第${page}页搜索失败:`, error);
-                                return [];
-                            }
-                        })();
-
-                        additionalPagePromises.push(pagePromise);
-                    }
-
-                    // 等待所有额外页的结果
-                    const additionalResults = await Promise.all(additionalPagePromises);
-
-                    // 合并所有页的结果
-                    additionalResults.forEach(pageResults => {
-                        if (pageResults.length > 0) {
-                            results.push(...pageResults);
-                        }
-                    });
-                }
-
-                return results;
-            } catch (error) {
-                console.warn(`API ${apiId} 搜索失败:`, error);
-                return [];
-            }
-        });
+        const searchPromises = selectedAPIs.map(apiId => 
+            searchByAPIAndKeyWord(apiId, query)
+        );
 
         // 等待所有搜索请求完成
         const resultsArray = await Promise.all(searchPromises);
@@ -800,7 +714,7 @@ async function search() {
         // 处理搜索结果过滤：如果启用了黄色内容过滤，则过滤掉分类含有敏感内容的项目
         const yellowFilterEnabled = localStorage.getItem('yellowFilterEnabled') === 'true';
         if (yellowFilterEnabled) {
-            const banned = ['伦理片','福利','里番动漫','门事件','萝莉少女','制服诱惑','国产传媒','cosplay','黑丝诱惑','无码','日本无码','有码','日本有码','SWAG','网红主播', '色情片','同性片','福利视频','福利片'];
+            const banned = ['伦理片', '福利', '里番动漫', '门事件', '萝莉少女', '制服诱惑', '国产传媒', 'cosplay', '黑丝诱惑', '无码', '日本无码', '有码', '日本有码', 'SWAG', '网红主播', '色情片', '同性片', '福利视频', '福利片'];
             allResults = allResults.filter(item => {
                 const typeName = item.type_name || '';
                 return !banned.some(keyword => typeName.includes(keyword));
@@ -915,12 +829,12 @@ function hookInput() {
 
     // 重写 value 属性的 getter 和 setter
     Object.defineProperty(input, 'value', {
-        get: function() {
+        get: function () {
             // 确保读取时返回字符串（即使原始值为 undefined/null）
             const originalValue = descriptor.get.call(this);
             return originalValue != null ? String(originalValue) : '';
         },
-        set: function(value) {
+        set: function (value) {
             // 显式将值转换为字符串后写入
             const strValue = String(value);
             descriptor.set.call(this, strValue);
@@ -1295,7 +1209,7 @@ async function importConfig() {
             if (!(file.type === 'application/json' || file.name.endsWith('.json'))) throw '文件类型不正确';
 
             // 检查文件大小
-            if(file.size > 1024 * 1024 * 10) throw new Error('文件大小超过 10MB');
+            if (file.size > 1024 * 1024 * 10) throw new Error('文件大小超过 10MB');
 
             // 读取文件内容
             const content = await new Promise((resolve, reject) => {
